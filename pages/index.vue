@@ -4,6 +4,7 @@
       <v-card class="logo py-4 d-flex justify-center">
         <NuxtLogo />
         <VuetifyLogo />
+        <ReccomendedBook />
       </v-card>
       <v-card>
         <v-card-title class="headline">
@@ -80,8 +81,23 @@
   </v-row>
 </template>
 
-<script>
-export default {
-  name: 'IndexPage',
+<script lang="ts">
+import { Component, Vue, } from "nuxt-property-decorator"
+import ReccomendedBook from "~/components/ReccomendedBook.vue"
+
+@Component({
+  components: {
+    ReccomendedBook,
+  }
+})
+
+export default class Index extends Vue{
+  created(){
+    this.$store.dispatch('reccomendedBook/setReccomendedBook')
+  }
+
+  get reccomendedBooks() :any{
+    return this.$store.getters['reccomendedBook/reccomendedBooks']
+  }
 }
 </script>
