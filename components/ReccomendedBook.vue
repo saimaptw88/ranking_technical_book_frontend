@@ -1,20 +1,24 @@
 <template>
-  <v-card class="reccomended-book">
-    <h1>qiita article title</h1>
-    <p>ranking number</p>
-    <div>tags</div>
-  </v-card>
+  <div class="reccomended-book">
+    <p>{{reccomendedBook.title}}</p>
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+import { Vue, Prop, Component } from 'vue-property-decorator'
 
-})
+@Component
+export default class ReccomendedBook extends Vue {
+  @Prop({ type: Object, default: null }) reccomendedBook!: any
+}
 </script>
 
-<style>
+<style lang="scss">
 .reccomended-book {
-  height: 50px;
+  height: 100px;
+  width: 400px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
 }
 </style>
