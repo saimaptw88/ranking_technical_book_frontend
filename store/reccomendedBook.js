@@ -1,27 +1,25 @@
 export const state = () => ({
-  reccomendedBook: [],
+  reccomendedBooks: [],
 })
 
 export const getters = {
-  ReccomendedBook: (state) => {
-    return state.reccomendedBook
+  reccomendedBooks: (state) => {
+    return state.reccomendedBooks
   },
 }
 
 export const mutations = {
   setReccomendedBook(state, books) {
-    state.reccomendedBook = books
+    state.reccomendedBooks = books
   },
 }
 
 export const actions = {
-  async setReccomendedBook({ commit }) {
+  async setReccomendedBook({ commit }, books) {
     await this.$axios.get('/v1/home').then((response) => {
-      const books = response.data
+      books = response.data
 
-      commit('setReccomendedBook', {
-        books: books,
-      })
+      commit('setReccomendedBook', books)
     })
   },
 }
