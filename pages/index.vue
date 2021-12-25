@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
-      <div class="logo py-4 d-flex justify-center">
+      <div class="logo py-4">
         <v-btn @click="click">components</v-btn>
         <div class="reccomended-books" v-for="reccomendedBook in reccomendedBooks" v-bind:key="reccomendedBook.id">
           <ReccomendedBook :reccomendedBook="reccomendedBook"/>
@@ -39,4 +39,9 @@ export default class Index extends Vue{
 }
 </script>
 <style lang="scss">
+.reccomended-books{
+  display: flex;
+  height: 100px;
+  align-items: center;
+}
 </style>

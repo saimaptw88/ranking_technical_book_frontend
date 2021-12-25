@@ -15,10 +15,10 @@ export default class ReccomendedBook extends Vue {
 
 <style lang="scss">
 .reccomended-book {
-  height: 100px;
-  width: 400px;
+  text-align: center;
+  margin: 0 auto;
   margin-left: 20px;
-  display: flex;
-  flex-direction: column;
+  display: inline-block;
+  border: solid white 1px;
 }
 </style>
