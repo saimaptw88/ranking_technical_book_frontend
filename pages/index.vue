@@ -2,6 +2,8 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <div class="logo py-4">
+        <h1>棒グラフと線グラフ</h1>
+        <chart></chart>
         <v-btn @click="click">components</v-btn>
         <div class="reccomended-books" v-for="reccomendedBook in reccomendedBooks" v-bind:key="reccomendedBook.id">
           <ReccomendedBook :reccomendedBook="reccomendedBook"/>
@@ -14,10 +16,13 @@
 <script lang="ts">
 import { Component, Vue, } from "nuxt-property-decorator"
 import ReccomendedBook from "~/components/ReccomendedBook.vue"
+import Chart from "~/components/Chart.vue"
+
 
 @Component({
   components: {
     ReccomendedBook,
+    Chart,
   }
 })
 
