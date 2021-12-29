@@ -1,0 +1,38 @@
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator'
+import { Bar, mixins } from 'vue-chartjs';
+
+@Component({
+    extends: Bar, // this is important to add the functionality to your component
+    mixins: [mixins.reactiveProp],
+})
+export default class TypeChart extends Mixins(mixins.reactiveProp, Bar) {
+
+  // vue lifecycle
+  mounted () {
+    // Overwriting base render method with actual data.
+    this.renderChart({
+      labels: this.titles,
+      datasets: [
+        {
+          label: 'Book Ranking',
+          backgroundColor: '#f87979',
+          data: this.totalPoints,
+        }
+      ],
+    })
+  }
+  // vue getters
+  get topFiveBooks(): any{
+    return this.$store.getters["reccomendedBook/topFiveBooks"]
+  }
+
+  get titles(): any{
+    return this.$store.getters["reccomendedBook/titles"]
+  }
+
+  get totalPoints(): any{
+    return this.$store.getters['reccomendedBook/totalPoints']
+  }
+}
+</script>
