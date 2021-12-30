@@ -1,7 +1,7 @@
 export const state = () => ({
   reccomendedBooks: [],
   topFiveBooks: [],
-  totalPoints: [],
+  points: [],
   titles: [],
 })
 
@@ -15,8 +15,8 @@ export const getters = {
   titles: (state) => {
     return state.titles
   },
-  totalPoints: (state) => {
-    return state.totalPoints
+  points: (state) => {
+    return state.points
   },
 }
 
@@ -30,35 +30,96 @@ export const mutations = {
   setTitles(state, titles) {
     state.titles = titles
   },
-  setTotalPoints(state, totalPoints) {
-    state.totalPoints = totalPoints
+  setPoints(state, points) {
+    state.points = points
   },
 }
 
 export const actions = {
-  async setReccomendedBooks({ commit }, books, topFiveBooks) {
-    await this.$axios.get('/v1/home').then((response) => {
-      books = response.data
-      topFiveBooks = books.slice(0, 5)
+  // default & set total ranking
+  async setTotalReccomendedBooks({ commit }) {
+    await this.$axios
+      .get('/v1/ranking/total/reccomended_book')
+      .then((response) => {
+        const books = response.data
+        const topFiveBooks = books.slice(0, 5)
 
-      commit('setReccomendedBooks', books)
-      commit('setTopFive', topFiveBooks)
-    })
+        commit('setReccomendedBooks', books)
+        commit('setTopFive', topFiveBooks)
+      })
   },
 
-  async setTopFiveTitles({ commit }, titles) {
-    await this.$axios.get('/v1/ranking/title').then((response) => {
-      titles = response.data
+  async setTotalTopFiveTitles({ commit }) {
+    await this.$axios.get('/v1/ranking/total/title').then((response) => {
+      const titles = response.data
 
       commit('setTitles', titles)
     })
   },
 
-  async setTopFiveTotalPoints({ commit }, totalPoints) {
-    await this.$axios.get(`v1/ranking/total_point`).then((response) => {
-      totalPoints = response.data
+  async setTotalTopFivePoints({ commit }) {
+    await this.$axios.get(`v1/ranking/total/point`).then((response) => {
+      const points = response.data
 
-      commit('setTotalPoints', totalPoints)
+      commit('setPoints', points)
+    })
+  },
+
+  // set yearly ranking
+  async setYearlyReccomendedBooks({ commit }) {
+    await this.$axios
+      .get('/v1/ranking/yearly/reccomended_book')
+      .then((response) => {
+        const books = response.data
+        const topFiveBooks = books.slice(0, 5)
+
+        commit('setReccomendedBooks', books)
+        commit('setTopFive', topFiveBooks)
+      })
+  },
+
+  async setYearlyTopFiveTitles({ commit }) {
+    await this.$axios.get('/v1/ranking/yearly/title').then((response) => {
+      const titles = response.data
+
+      commit('setTitles', titles)
+    })
+  },
+
+  async setYearlyTopFivePoints({ commit }) {
+    await this.$axios.get(`v1/ranking/yearly/point`).then((response) => {
+      const points = response.data
+
+      commit('setPoints', points)
+    })
+  },
+
+  // set monthly ranking
+  async setMonthlyReccomendedBooks({ commit }) {
+    await this.$axios
+      .get('/v1/ranking/monthly/reccomended_book')
+      .then((response) => {
+        const books = response.data
+        const topFiveBooks = books.slice(0, 5)
+
+        commit('setReccomendedBooks', books)
+        commit('setTopFive', topFiveBooks)
+      })
+  },
+
+  async setMonthlyTopFiveTitles({ commit }) {
+    await this.$axios.get('/v1/ranking/monthly/title').then((response) => {
+      const titles = response.data
+
+      commit('setTitles', titles)
+    })
+  },
+
+  async setMonthlyTopFivePoints({ commit }) {
+    await this.$axios.get(`v1/ranking/monthly/point`).then((response) => {
+      const points = response.data
+
+      commit('setPoints', points)
     })
   },
 }
