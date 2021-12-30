@@ -17,7 +17,7 @@ export default class TypeChart extends Mixins(mixins.reactiveProp, Bar) {
         {
           label: 'Book Ranking',
           backgroundColor: '#f87979',
-          data: this.totalPoints,
+          data: this.points,
         }
       ],
     })
@@ -31,8 +31,8 @@ export default class TypeChart extends Mixins(mixins.reactiveProp, Bar) {
     return this.$store.getters["reccomendedBook/titles"]
   }
 
-  get totalPoints(): any{
-    return this.$store.getters['reccomendedBook/totalPoints']
+  get points(): any{
+    return this.$store.getters['reccomendedBook/points']
   }
 }
 </script>
