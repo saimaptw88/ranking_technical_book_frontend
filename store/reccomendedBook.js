@@ -3,6 +3,7 @@ export const state = () => ({
   topFiveBooks: [],
   points: [],
   titles: [],
+  page: 1,
 })
 
 export const getters = {
@@ -33,19 +34,44 @@ export const mutations = {
   setPoints(state, points) {
     state.points = points
   },
+  addReccomendedBooks(state, books) {
+    for (var i = 0; i < books.length; i++) {
+      state.reccomendedBooks.push(books[i])
+    }
+  },
+  addPage(state) {
+    state.page += 1
+  },
 }
 
 export const actions = {
   // default & set total ranking
-  async setTotalReccomendedBooks({ commit }) {
+  async setTotalReccomendedBooks({ commit, state }) {
     await this.$axios
-      .get('/v1/ranking/total/reccomended_book')
+      .get('/v1/ranking/total/reccomended_book', {
+        params: { page: state.page },
+      })
       .then((response) => {
         const books = response.data
         const topFiveBooks = books.slice(0, 5)
 
         commit('setReccomendedBooks', books)
         commit('setTopFive', topFiveBooks)
+        commit('addPage')
+      })
+  },
+
+  async addReccomendedBooks({ commit, state }, term) {
+    await this.$axios
+      .get(`v1/ranking/${term.term.toLowerCase()}/reccomended_book`, {
+        params: { page: state.page },
+      })
+      .then((response) => {
+        if (response.data.length) {
+          commit('addReccomendedBooks', response.data)
+          commit('addPage')
+          // state.complete()
+        }
       })
   },
 
