@@ -1,4 +1,7 @@
+import camelcaseKeys from 'camelcase-keys'
+
 export const state = () => ({
+  reccomendedBook: [],
   reccomendedBooks: [],
   topFiveBooks: [],
   points: [],
@@ -7,6 +10,9 @@ export const state = () => ({
 })
 
 export const getters = {
+  reccomendedBook: (state) => {
+    return state.reccomendedBook
+  },
   reccomendedBooks: (state) => {
     return state.reccomendedBooks
   },
@@ -22,6 +28,9 @@ export const getters = {
 }
 
 export const mutations = {
+  setReccomendedBook(state, book) {
+    state.reccomendedBook = book
+  },
   setReccomendedBooks(state, books) {
     state.reccomendedBooks = books
   },
@@ -52,7 +61,7 @@ export const actions = {
         params: { page: state.page },
       })
       .then((response) => {
-        const books = response.data
+        const books = camelcaseKeys(response.data, { deep: true })
         const topFiveBooks = books.slice(0, 5)
 
         commit('setReccomendedBooks', books)
@@ -61,23 +70,9 @@ export const actions = {
       })
   },
 
-  async addReccomendedBooks({ commit, state }, term) {
-    await this.$axios
-      .get(`v1/ranking/${term.term.toLowerCase()}/reccomended_book`, {
-        params: { page: state.page },
-      })
-      .then((response) => {
-        if (response.data.length) {
-          commit('addReccomendedBooks', response.data)
-          commit('addPage')
-          // state.complete()
-        }
-      })
-  },
-
   async setTotalTopFiveTitles({ commit }) {
     await this.$axios.get('/v1/ranking/total/title').then((response) => {
-      const titles = response.data
+      const titles = camelcaseKeys(response.data, { deep: true })
 
       commit('setTitles', titles)
     })
@@ -85,7 +80,7 @@ export const actions = {
 
   async setTotalTopFivePoints({ commit }) {
     await this.$axios.get(`v1/ranking/total/point`).then((response) => {
-      const points = response.data
+      const points = camelcaseKeys(response.data, { deep: true })
 
       commit('setPoints', points)
     })
@@ -96,7 +91,7 @@ export const actions = {
     await this.$axios
       .get('/v1/ranking/yearly/reccomended_book')
       .then((response) => {
-        const books = response.data
+        const books = camelcaseKeys(response.data, { deep: true })
         const topFiveBooks = books.slice(0, 5)
 
         commit('setReccomendedBooks', books)
@@ -106,7 +101,7 @@ export const actions = {
 
   async setYearlyTopFiveTitles({ commit }) {
     await this.$axios.get('/v1/ranking/yearly/title').then((response) => {
-      const titles = response.data
+      const titles = camelcaseKeys(response.data, { deep: true })
 
       commit('setTitles', titles)
     })
@@ -114,7 +109,7 @@ export const actions = {
 
   async setYearlyTopFivePoints({ commit }) {
     await this.$axios.get(`v1/ranking/yearly/point`).then((response) => {
-      const points = response.data
+      const points = camelcaseKeys(response.data, { deep: true })
 
       commit('setPoints', points)
     })
@@ -125,7 +120,7 @@ export const actions = {
     await this.$axios
       .get('/v1/ranking/monthly/reccomended_book')
       .then((response) => {
-        const books = response.data
+        const books = camelcaseKeys(response.data, { deep: true })
         const topFiveBooks = books.slice(0, 5)
 
         commit('setReccomendedBooks', books)
@@ -135,7 +130,7 @@ export const actions = {
 
   async setMonthlyTopFiveTitles({ commit }) {
     await this.$axios.get('/v1/ranking/monthly/title').then((response) => {
-      const titles = response.data
+      const titles = camelcaseKeys(response.data, { deep: true })
 
       commit('setTitles', titles)
     })
@@ -143,9 +138,33 @@ export const actions = {
 
   async setMonthlyTopFivePoints({ commit }) {
     await this.$axios.get(`v1/ranking/monthly/point`).then((response) => {
-      const points = response.data
+      const points = camelcaseKeys(response.data, { deep: true })
 
       commit('setPoints', points)
+    })
+  },
+
+  // commons
+  async addReccomendedBooks({ commit, state }, term) {
+    await this.$axios
+      .get(`v1/ranking/${term.term.toLowerCase()}/reccomended_book`, {
+        params: { page: state.page },
+      })
+      .then((response) => {
+        if (response.data.length) {
+          const books = camelcaseKeys(response.data, { deep: true })
+
+          commit('addReccomendedBooks', books)
+          commit('addPage')
+        }
+      })
+  },
+
+  async getReccomendedBook({ commit }, bookId) {
+    await this.$axios.get(`/v1/home/${bookId}`).then((res) => {
+      const book = camelcaseKeys(res.data, { deep: true })
+
+      commit('setReccomendedBook', book)
     })
   },
 }
