@@ -10,7 +10,7 @@
         <h1>棒グラフと線グラフ</h1>
         <TypeChart v-if="loaded" />
         <div class="reccomended-books" v-for="(reccomendedBook, $index) in reccomendedBooks" :key="$index">
-          <ReccomendedBook :reccomendedBook="reccomendedBook"/>
+          <ReccomendedBook :reccomendedBook="reccomendedBook" :term="term" />
         </div>
         <infinite-loading @infinite="infiniteHandler"></infinite-loading>
       </div>
@@ -94,6 +94,8 @@ export default class Index extends Vue{
 <style lang="scss">
 .reccomended-books{
   display: flex;
+  margin: 30px auto;
+  padding: auto;
   height: 100px;
   align-items: center;
 }
