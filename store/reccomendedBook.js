@@ -1,170 +1,104 @@
+// NOTE : 取得書籍数が単数の場合の Vuex
+// NOTE : _id.vue で使用する
+
 import camelcaseKeys from 'camelcase-keys'
 
 export const state = () => ({
-  reccomendedBook: [],
-  reccomendedBooks: [],
-  topFiveBooks: [],
-  points: [],
-  titles: [],
-  page: 1,
+  title: '',
+  authors: '',
+  publicationData: '',
+  explanation: '',
+  thumbnailUrl: '',
+  affiliateUrl: '',
+  qiitaLgtm: 0,
+  qiitaTitles: [],
+  qiitaTags: [],
 })
 
 export const getters = {
-  reccomendedBook: (state) => {
-    return state.reccomendedBook
+  title: (state) => {
+    return state.title
   },
-  reccomendedBooks: (state) => {
-    return state.reccomendedBooks
+  authors: (state) => {
+    return state.authors
   },
-  topFiveBooks: (state) => {
-    return state.topFiveBooks
+  publicationData: (state) => {
+    return state.publicationData
   },
-  titles: (state) => {
-    return state.titles
+  explanation: (state) => {
+    return state.explanation
   },
-  points: (state) => {
-    return state.points
+  thumbnailUrl: (state) => {
+    return state.thumbnailUrl
+  },
+  affiliateUrl: (state) => {
+    return state.affiliateUrl
+  },
+  qiitaLgtm: (state) => {
+    return state.qiitaLgtm
+  },
+  qiitaTitles: (state) => {
+    return state.qiitaTitles
+  },
+  qiitaTags: (state) => {
+    return state.qiitaTags
   },
 }
 
 export const mutations = {
-  setReccomendedBook(state, book) {
-    state.reccomendedBook = book
+  setTitle(state, title) {
+    state.title = title
   },
-  setReccomendedBooks(state, books) {
-    state.reccomendedBooks = books
+  setAuthors(state, authors) {
+    state.authors = authors
   },
-  setTopFive(state, books) {
-    state.topFiveBooks = books
+  setPublicationData(state, publicationData) {
+    state.publicationData = publicationData
   },
-  setTitles(state, titles) {
-    state.titles = titles
+  setExplanation(state, explanation) {
+    state.explanation = explanation
   },
-  setPoints(state, points) {
-    state.points = points
+  setThumbnailUrl(state, thumbnailUrl) {
+    state.thumbnailUrl = thumbnailUrl
   },
-  addReccomendedBooks(state, books) {
-    for (var i = 0; i < books.length; i++) {
-      state.reccomendedBooks.push(books[i])
-    }
+  setAffiliateUrl(state, affiliateUrl) {
+    state.affiliateUrl = affiliateUrl
   },
-  addPage(state) {
-    state.page += 1
+  setQiitaLgtm(state, qiitaLgtm) {
+    state.qiitaLgtm = qiitaLgtm
+  },
+  setQiitaTitles(state, qiitaTitles) {
+    state.qiitaTitles = qiitaTitles
+  },
+  setQiitaTags(state, qiitaTags) {
+    state.qiitaTags = qiitaTags
   },
 }
 
 export const actions = {
-  // default & set total ranking
-  async setTotalReccomendedBooks({ commit, state }) {
-    await this.$axios
-      .get('/v1/ranking/total/reccomended_book', {
-        params: { page: state.page },
-      })
-      .then((response) => {
-        const books = camelcaseKeys(response.data, { deep: true })
-        const topFiveBooks = books.slice(0, 5)
-
-        commit('setReccomendedBooks', books)
-        commit('setTopFive', topFiveBooks)
-        commit('addPage')
-      })
-  },
-
-  async setTotalTopFiveTitles({ commit }) {
-    await this.$axios.get('/v1/ranking/total/title').then((response) => {
-      const titles = camelcaseKeys(response.data, { deep: true })
-
-      commit('setTitles', titles)
-    })
-  },
-
-  async setTotalTopFivePoints({ commit }) {
-    await this.$axios.get(`v1/ranking/total/point`).then((response) => {
-      const points = camelcaseKeys(response.data, { deep: true })
-
-      commit('setPoints', points)
-    })
-  },
-
-  // set yearly ranking
-  async setYearlyReccomendedBooks({ commit }) {
-    await this.$axios
-      .get('/v1/ranking/yearly/reccomended_book')
-      .then((response) => {
-        const books = camelcaseKeys(response.data, { deep: true })
-        const topFiveBooks = books.slice(0, 5)
-
-        commit('setReccomendedBooks', books)
-        commit('setTopFive', topFiveBooks)
-      })
-  },
-
-  async setYearlyTopFiveTitles({ commit }) {
-    await this.$axios.get('/v1/ranking/yearly/title').then((response) => {
-      const titles = camelcaseKeys(response.data, { deep: true })
-
-      commit('setTitles', titles)
-    })
-  },
-
-  async setYearlyTopFivePoints({ commit }) {
-    await this.$axios.get(`v1/ranking/yearly/point`).then((response) => {
-      const points = camelcaseKeys(response.data, { deep: true })
-
-      commit('setPoints', points)
-    })
-  },
-
-  // set monthly ranking
-  async setMonthlyReccomendedBooks({ commit }) {
-    await this.$axios
-      .get('/v1/ranking/monthly/reccomended_book')
-      .then((response) => {
-        const books = camelcaseKeys(response.data, { deep: true })
-        const topFiveBooks = books.slice(0, 5)
-
-        commit('setReccomendedBooks', books)
-        commit('setTopFive', topFiveBooks)
-      })
-  },
-
-  async setMonthlyTopFiveTitles({ commit }) {
-    await this.$axios.get('/v1/ranking/monthly/title').then((response) => {
-      const titles = camelcaseKeys(response.data, { deep: true })
-
-      commit('setTitles', titles)
-    })
-  },
-
-  async setMonthlyTopFivePoints({ commit }) {
-    await this.$axios.get(`v1/ranking/monthly/point`).then((response) => {
-      const points = camelcaseKeys(response.data, { deep: true })
-
-      commit('setPoints', points)
-    })
-  },
-
-  // commons
-  async addReccomendedBooks({ commit, state }, term) {
-    await this.$axios
-      .get(`v1/ranking/${term.term.toLowerCase()}/reccomended_book`, {
-        params: { page: state.page },
-      })
-      .then((response) => {
-        if (response.data.length) {
-          const books = camelcaseKeys(response.data, { deep: true })
-
-          commit('addReccomendedBooks', books)
-          commit('addPage')
-        }
-      })
-  },
-
-  async getReccomendedBook({ commit }, bookId) {
+  async setReccomendedBook({ commit }, bookId) {
     await this.$axios.get(`/v1/home/${bookId}`).then((res) => {
       const book = camelcaseKeys(res.data, { deep: true })
 
-      commit('setReccomendedBook', book)
+      const title = book.title
+      const authors = book.author
+      const publicationData = book.publicationData
+      const explanation = book.explanation
+      const thumbnailUrl = book.thumbnailUrl
+      const affiliateUrl = book.affiliateUrl
+      const qiitaLgtm = book.qiitaLgtm
+      const qiitaTitles = book.qiitaTitles
+      const qiitaTags = book.qiitaTags
+
+      commit('setTitle', title)
+      commit('setAuthors', authors)
+      commit('setPublicationData', publicationData)
+      commit('setExplanation', explanation)
+      commit('setThumbnailUrl', thumbnailUrl)
+      commit('setAffiliateUrl', affiliateUrl)
+      commit('setQiitaLgtm', qiitaLgtm)
+      commit('setQiitaTitles', qiitaTitles)
+      commit('setQiitaTags', qiitaTags)
     })
   },
 }

@@ -32,14 +32,12 @@ export default class ReccomendedBook extends Vue {
   @Prop({ type: String, required: true}) term!: string
 
   // data
-  id = this.reccomendedBook.id
+  id = this.reccomendedBook.id.$oid
+  link = `/books/${this.id}`
 
   // methods
   toReccomendedBook(){
     alert(this.id)
-  }
-  link(){
-    return `/book/${this.id}.vue`
   }
 }
 </script>

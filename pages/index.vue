@@ -48,7 +48,7 @@ export default class Index extends Vue{
 
   // vue getters
   get reccomendedBooks() :any{
-    return this.$store.getters['reccomendedBook/reccomendedBooks']
+    return this.$store.getters['reccomendedBooks/reccomendedBooks']
   }
 
   // vue methods
@@ -60,9 +60,9 @@ export default class Index extends Vue{
   }
 
   async setReccomendedBooks(term :string){
-    const booksAction = `reccomendedBook/set${term}ReccomendedBooks`
-    const titlesAction = `reccomendedBook/set${term}TopFiveTitles`
-    const topFivePointsAction = `reccomendedBook/set${term}TopFivePoints`
+    const booksAction = `reccomendedBooks/set${term}ReccomendedBooks`
+    const titlesAction = `reccomendedBooks/set${term}TopFiveTitles`
+    const topFivePointsAction = `reccomendedBooks/set${term}TopFivePoints`
 
     try{
       await this.$store.dispatch(booksAction)
@@ -78,7 +78,7 @@ export default class Index extends Vue{
     if(this.booksLoading) return
     try{
       this.booksLoading = true
-      await this.$store.dispatch('reccomendedBook/addReccomendedBooks', { term: this.term })
+      await this.$store.dispatch('reccomendedBooks/addReccomendedBooks', { term: this.term })
       $state.loaded()
 
     }catch(e){
