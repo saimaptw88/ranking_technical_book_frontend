@@ -24,15 +24,15 @@ export default class TypeChart extends Mixins(mixins.reactiveProp, Bar) {
   }
   // vue getters
   get topFiveBooks(): any{
-    return this.$store.getters["reccomendedBook/topFiveBooks"]
+    return this.$store.getters["reccomendedBooks/topFiveBooks"]
   }
 
   get titles(): any{
-    return this.$store.getters["reccomendedBook/titles"]
+    return this.$store.getters["reccomendedBooks/titles"]
   }
 
   get points(): any{
-    return this.$store.getters['reccomendedBook/points']
+    return this.$store.getters['reccomendedBooks/points']
   }
 }
 </script>
