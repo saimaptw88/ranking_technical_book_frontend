@@ -47,7 +47,7 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-home-circle-outline',
+          icon: 'mdi-home',
           title: 'Home',
           to: '/',
         },
