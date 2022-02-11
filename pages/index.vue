@@ -1,20 +1,22 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="contents-container">
-        <div class="term-switch-button">
-          <v-btn value="total" @click="isSelected('Total')">total</v-btn>
-          <v-btn value="yearly" @click="isSelected('Yearly')">yearly</v-btn>
-          <v-btn value="monthly" @click="isSelected('Monthly')">monthly</v-btn>
-        </div>
-        <v-card-title class="title">棒グラフと線グラフ</v-card-title>
+    <v-col cols="12" sm="9" md="6">
+      <v-card-title>Overview</v-card-title>
+      <v-card-text>This app is for bigginer of system engineers in Japan</v-card-text>
+      <v-col class="contents-container">
+        <v-layout justify-center>
+          <v-btn class="term-btn" @click="isSelected('Total')">total</v-btn>
+          <v-btn class="term-btn" @click="isSelected('Yearly')">yearly</v-btn>
+          <v-btn class="term-btn" @click="isSelected('Monthly')">monthly</v-btn>
+        </v-layout>
         <RankingChart class="ranking-chart" v-if="loaded" />
-
-        <div class="reccomended-books" v-for="(reccomendedBook, $index) in reccomendedBooks" :key="$index">
+      </v-col>
+      <v-col class="reccomended-books" v-for="(reccomendedBook, $index) in reccomendedBooks" :key="$index">
+        <v-card class="reccomended-book" hover>
           <ReccomendedBook :reccomendedBook="reccomendedBook" :term="term" />
-        </div>
-        <infinite-loading @infinite="infiniteHandler"></infinite-loading>
-      </v-card>
+        </v-card>
+      </v-col>
+      <infinite-loading @infinite="infiniteHandler"></infinite-loading>
     </v-col>
   </v-row>
 </template>
@@ -60,6 +62,12 @@ export default class Index extends Vue{
     await this.setReccomendedBooks(this.term)
   }
 
+  isValueSameAsTerm(value: string){
+    if(value === this.term) return true;
+
+    return false;
+  }
+
   async setReccomendedBooks(term :string){
     const booksAction = `reccomendedBooks/set${term}ReccomendedBooks`
     const titlesAction = `reccomendedBooks/set${term}TopFiveTitles`
@@ -94,20 +102,18 @@ export default class Index extends Vue{
 </script>
 <style lang="scss">
 .contents-container{
-  margin-top: 100px;
-  // background-image: url("@/assets/system_engineer.jpg");
-  background-repeat:  no-repeat;
-  background-size: 100%;
+  margin-top: 10px;
 
+  .term-btn{
+    width: 30%;
+    margin: 0 5px;
+  }
   .ranking-chart{
-    width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
   }
   .reccomended-books{
     display: flex;
-    margin: 30px auto;
     padding: auto;
-    height: 100px;
     align-items: center;
   }
 }

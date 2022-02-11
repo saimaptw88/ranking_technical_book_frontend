@@ -48,9 +48,8 @@ export default class ReccomendedBook extends Vue {
   display: flex;
   display: inline-block;
   text-align: center;
-  margin: 20px 0px;
-  border: solid white 1px;
-  height: 100px;
+  margin: 5px 0px;
+  height: 200px;
   width: 100%;
 
   .image{
