@@ -15,8 +15,8 @@ export default class RankingChart extends Mixins(mixins.reactiveProp, Bar) {
       labels: this.titles,
       datasets: [
         {
-          label: 'Book Ranking',
-          backgroundColor: '#f87979',
+          label: 'Book Point',
+          backgroundColor: '#4DD0E1',
           data: this.points,
         }
       ],

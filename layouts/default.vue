@@ -29,7 +29,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
     </v-app-bar>
-    <v-main>
+    <v-main class="main">
       <v-container>
         <Nuxt />
       </v-container>
@@ -71,5 +71,7 @@ export default {
 }
 </script>
 <style lang="scss">
-
+.main{
+  background-color: whitesmoke;
+}
 </style>
