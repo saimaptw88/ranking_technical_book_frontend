@@ -1,15 +1,28 @@
 <template>
-  <div>
-    <div>title : {{ title }}</div>
-    <div>authors : {{ authors }}</div>
-    <div>publicationData : {{ publicationData }}</div>
-    <div>explanation : {{ explanation }}</div>
-    <img :src="thumbnailUrl" />
-    <div>affiliateUrl : {{ affiliateUrl }}</div>
-    <div>qiitaLgtm : {{ qiitaLgtm }}</div>
-    <div>qiitaTitles : {{ qiitaTitles }}</div>
-    <div>qiitaTags : {{ qiitaTags }}</div>
-  </div>
+  <v-row justify="center" align="center">
+    <v-col cols="12" sm="9" md="6">
+      <div class="intro-content">
+        <img :src="thumbnailUrl" />
+        <div class="book-explain">
+          <div>totalRanking, yearlyRanking, monthlyRanking</div>
+          <div>{{ title }}</div>
+          <div>著者 : {{ authors }}</div>
+          <div>出版日 : {{ publicationData }}</div>
+        </div>
+      </div>
+      <v-divider />
+      <div class="qiita-content">
+        <div>LGTM : {{ qiitaLgtm }}</div>
+        <div>qiitaTags : {{ qiitaTags }}</div>
+        <div>qiitaTitles : {{ qiitaTitles }}</div>
+      </div>
+      <v-divider />
+      <div class="explanation-content">
+        <div>explanation : {{ explanation }}</div>
+        <div>affiliateUrl : {{ affiliateUrl }}</div>
+      </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
@@ -77,3 +90,14 @@ export default class Id extends Vue{
   }
 }
 </script>
+<style lang="scss">
+.intro-content{
+  height: 200px;
+  img{
+    float: left;
+  }
+  .book-explain{
+    float: right;
+  }
+}
+</style>
