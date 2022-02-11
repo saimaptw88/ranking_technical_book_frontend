@@ -6,7 +6,7 @@ import { Bar, mixins } from 'vue-chartjs';
     extends: Bar, // this is important to add the functionality to your component
     mixins: [mixins.reactiveProp],
 })
-export default class TypeChart extends Mixins(mixins.reactiveProp, Bar) {
+export default class RankingChart extends Mixins(mixins.reactiveProp, Bar) {
 
   // vue lifecycle
   mounted () {

@@ -1,19 +1,20 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
-      <div class="logo py-4">
-        <div class="button-container">
+      <v-card class="contents-container">
+        <div class="term-switch-button">
           <v-btn value="total" @click="isSelected('Total')">total</v-btn>
           <v-btn value="yearly" @click="isSelected('Yearly')">yearly</v-btn>
           <v-btn value="monthly" @click="isSelected('Monthly')">monthly</v-btn>
         </div>
-        <h1>棒グラフと線グラフ</h1>
-        <TypeChart v-if="loaded" />
+        <v-card-title class="title">棒グラフと線グラフ</v-card-title>
+        <RankingChart class="ranking-chart" v-if="loaded" />
+
         <div class="reccomended-books" v-for="(reccomendedBook, $index) in reccomendedBooks" :key="$index">
           <ReccomendedBook :reccomendedBook="reccomendedBook" :term="term" />
         </div>
         <infinite-loading @infinite="infiniteHandler"></infinite-loading>
-      </div>
+      </v-card>
     </v-col>
   </v-row>
 </template>
@@ -22,7 +23,7 @@
 import { Component, Vue } from "nuxt-property-decorator"
 import ReccomendedBook from "~/components/ReccomendedBook.vue"
 import Chart from "~/components/Chart.vue"
-import TypeChart from "~/components/TypeChart.vue"
+import RankingChart from "~/components/RankingChart.vue"
 import InfiniteLoading from 'vue-infinite-loading'
 
 
@@ -30,7 +31,7 @@ import InfiniteLoading from 'vue-infinite-loading'
   components: {
     ReccomendedBook,
     Chart,
-    TypeChart,
+    RankingChart,
     InfiniteLoading,
   },
 })
@@ -92,11 +93,22 @@ export default class Index extends Vue{
 }
 </script>
 <style lang="scss">
-.reccomended-books{
-  display: flex;
-  margin: 30px auto;
-  padding: auto;
-  height: 100px;
-  align-items: center;
+.contents-container{
+  margin-top: 100px;
+  // background-image: url("@/assets/system_engineer.jpg");
+  background-repeat:  no-repeat;
+  background-size: 100%;
+
+  .ranking-chart{
+    width: 80%;
+    margin: 0 auto;
+  }
+  .reccomended-books{
+    display: flex;
+    margin: 30px auto;
+    padding: auto;
+    height: 100px;
+    align-items: center;
+  }
 }
 </style>
