@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app>
     <v-navigation-drawer
       dark
       v-model="drawer"
@@ -25,8 +25,8 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" color="cyan" dark fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+    <v-app-bar :clipped-left="clipped" class="white--text cyan" fixed app>
+      <v-app-bar-nav-icon class="white--text" @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
     </v-app-bar>
     <v-main class="main">

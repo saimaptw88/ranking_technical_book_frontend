@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="12" md="12">
+    <v-col cols="10" md="9" sm="8">
       <v-card class="contents">
         <div class="rankings">
           <div class="ranking">
