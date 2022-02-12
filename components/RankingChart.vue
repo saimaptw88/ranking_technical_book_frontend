@@ -20,6 +20,10 @@ export default class RankingChart extends Mixins(mixins.reactiveProp, Bar) {
           data: this.points,
         }
       ],
+    }, {
+        scales: {
+          yAxes: [{ticks: {min: 0}}],
+      }
     })
   }
   // vue getters

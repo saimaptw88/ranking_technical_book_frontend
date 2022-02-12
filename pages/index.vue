@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="9" md="6">
+    <v-col cols="12" sm="10" md="6">
       <v-card-title>Overview</v-card-title>
       <v-card-text>This app is for bigginer of system engineers in Japan</v-card-text>
       <v-col class="contents-container">
