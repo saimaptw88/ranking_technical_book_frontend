@@ -40,7 +40,7 @@ export const mutations = {
     state.points = points
   },
   addReccomendedBooks(state, books) {
-    for (var i = 0; i < books.length; i++) {
+    for (let i = 0; i < books.length; i++) {
       state.reccomendedBooks.push(books[i])
     }
   },
