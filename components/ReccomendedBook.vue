@@ -1,8 +1,6 @@
 <template>
-  <div class="reccomended-book">
-    <nuxt-link :to="link">
-      <v-img class="image" :src="reccomendedBook.thumbnailUrl" max-height="100" max-width="50" />
-    </nuxt-link>
+  <div class="reccomended-book" @click="toReccomendedBook">
+    <v-img class="image" :src="reccomendedBook.thumbnailUrl" max-height="100" max-width="50" />
     <div class="rank-container">
       <div v-if="term==='Total'">
         <div>ranking : {{ reccomendedBook.totalRanking }}</div>
@@ -17,7 +15,7 @@
         <div>point : {{ reccomendedBook.monthlyPoint }}</div>
       </div>
     </div>
-    <div class="title" @click="toReccomendedBook">{{reccomendedBook.title}}</div>
+    <div class="title">{{reccomendedBook.title}}</div>
     <div class="author">{{ reccomendedBook.author }}</div>
     <div class="publication">{{ reccomendedBook.publicationData }}</div>
   </div>
@@ -36,8 +34,8 @@ export default class ReccomendedBook extends Vue {
   link = `/books/${this.id}`
 
   // methods
-  toReccomendedBook(){
-    alert(this.id)
+  toReccomendedBook():void{
+    this.$router.push(this.link)
   }
 }
 </script>
