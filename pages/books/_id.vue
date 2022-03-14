@@ -160,7 +160,8 @@ export default class Id extends Vue{
     }
   }
   amazonLink(){
-    window.location.href = this.affiliateUrl
+    alert("AMAZON GO")
+    // window.location.href = this.affiliateUrl
   }
 }
 </script>
