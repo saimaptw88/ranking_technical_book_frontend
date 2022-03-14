@@ -9,14 +9,14 @@
           <v-btn class="term-btn" @click="isSelected('Yearly')">yearly</v-btn>
           <v-btn class="term-btn" @click="isSelected('Monthly')">monthly</v-btn>
         </v-layout>
-        <RankingChart class="ranking-chart" v-if="loaded" />
+        <RankingChart class="ranking-chart" v-if="chart" />
       </v-col>
       <v-col class="reccomended-books" v-for="(reccomendedBook, $index) in reccomendedBooks" :key="$index">
         <v-card class="reccomended-book" hover>
           <ReccomendedBook :reccomendedBook="reccomendedBook" :term="term" />
         </v-card>
       </v-col>
-      <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+      <infinite-loading v-if="!loading" @infinite="infiniteHandler"></infinite-loading>
     </v-col>
   </v-row>
 </template>
@@ -24,7 +24,6 @@
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator"
 import ReccomendedBook from "~/components/ReccomendedBook.vue"
-import Chart from "~/components/Chart.vue"
 import RankingChart from "~/components/RankingChart.vue"
 import InfiniteLoading from 'vue-infinite-loading'
 
@@ -32,7 +31,6 @@ import InfiniteLoading from 'vue-infinite-loading'
 @Component({
   components: {
     ReccomendedBook,
-    Chart,
     RankingChart,
     InfiniteLoading,
   },
@@ -40,13 +38,15 @@ import InfiniteLoading from 'vue-infinite-loading'
 
 export default class Index extends Vue{
   // vue data
-  loaded: boolean = false       // is vuex state loaded
-  booksLoading: boolean = false // is infinite loading done
+  loading: boolean = true // is vuex state loaded
+  chart: boolean = false // chart
   term: string = "Total"
 
   // vue lifecycle
   async created(){
     await this.setReccomendedBooks(this.term)
+
+    this.chart =true
   }
 
   // vue getters
@@ -56,7 +56,7 @@ export default class Index extends Vue{
 
   // vue methods
   async isSelected(selectedTab :string){
-    this.loaded = false
+    this.loading = true
     this.term = selectedTab
 
     await this.setReccomendedBooks(this.term)
@@ -73,30 +73,26 @@ export default class Index extends Vue{
     const titlesAction = `reccomendedBooks/set${term}TopFiveTitles`
     const topFivePointsAction = `reccomendedBooks/set${term}TopFivePoints`
 
+
     try{
       await this.$store.dispatch(booksAction)
       await this.$store.dispatch(titlesAction)
       await this.$store.dispatch(topFivePointsAction)
-      this.loaded = true
     }catch(e){
       console.error(e)
+      alert("ERROR : cannnot get reccomended books")
+    }finally{
+      this.loading = false
     }
   }
 
   async infiniteHandler($state :any){
-    if(this.booksLoading) return
     try{
-      this.booksLoading = true
       await this.$store.dispatch('reccomendedBooks/addReccomendedBooks', { term: this.term })
       $state.loaded()
-
     }catch(e){
       $state.completed()
-
-    }finally{
-      this.booksLoading = false
     }
-
   }
 }
 </script>

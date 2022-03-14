@@ -44,25 +44,28 @@ export const mutations = {
       state.reccomendedBooks.push(books[i])
     }
   },
-  addPage(state) {
-    state.page += 1
+  addPage(state, booksLength) {
+    state.page += booksLength
+  },
+  setPage(state, booksLength) {
+    state.page = booksLength + 1
   },
 }
 
 export const actions = {
   // default & set total ranking
-  async setTotalReccomendedBooks({ commit, state }) {
+  async setTotalReccomendedBooks({ commit }) {
     await this.$axios
       .get('/v1/ranking/total/reccomended_book', {
-        params: { page: state.page },
+        params: { page: 1 },
       })
       .then((response) => {
         const books = camelcaseKeys(response.data, { deep: true })
         const topFiveBooks = books.slice(0, 5)
 
+        commit('setPage', books.length)
         commit('setReccomendedBooks', books)
         commit('setTopFive', topFiveBooks)
-        commit('addPage')
       })
   },
 
@@ -90,6 +93,7 @@ export const actions = {
         const books = camelcaseKeys(response.data, { deep: true })
         const topFiveBooks = books.slice(0, 5)
 
+        commit('setPage', books.length)
         commit('setReccomendedBooks', books)
         commit('setTopFive', topFiveBooks)
       })
@@ -119,6 +123,7 @@ export const actions = {
         const books = camelcaseKeys(response.data, { deep: true })
         const topFiveBooks = books.slice(0, 5)
 
+        commit('setPage', books.length)
         commit('setReccomendedBooks', books)
         commit('setTopFive', topFiveBooks)
       })
@@ -151,7 +156,7 @@ export const actions = {
           const books = camelcaseKeys(response.data, { deep: true })
 
           commit('addReccomendedBooks', books)
-          commit('addPage')
+          commit('addPage', books.length)
         }
       })
   },
